@@ -1,0 +1,124 @@
+
+\data\
+ngram 1=51
+ngram 2=63
+
+\1-grams:
+-0.7993405	</s>
+-99	<s>	-99
+-1.799341	A	-99
+-1.799341	Actions	-99
+-1.799341	Artificial	-99
+-1.799341	Birthday	-99
+-1.799341	Google	-99
+-1.799341	Jealousy	-99
+-1.799341	My	-99
+-1.799341	Necessity	-99
+-1.799341	OK	-99
+-1.799341	Only	-99
+-1.799341	There	-99
+-1.799341	a	-99
+-1.799341	and	-99
+-1.799341	as	-99
+-1.799341	boils	-99
+-1.799341	cream	-99
+-1.799341	cupcakes	-99
+-1.799341	for	-99
+-1.799341	free	-99
+-1.799341	has	-99
+-1.799341	have	-99
+-1.799341	ice	-99
+-1.799341	intelligence	-99
+-1.799341	invention	-99
+-1.197281	is	-99
+-1.799341	lawyers	-99
+-1.799341	louder	-99
+-1.799341	love	-99
+-1.799341	lunch	-99
+-1.799341	millionaires	-99
+-1.799341	mother	-99
+-1.799341	my	-99
+-1.799341	never	-99
+-1.799341	no	-99
+-1.799341	of	-99
+-1.799341	parties	-99
+-1.799341	password	-99
+-1.799341	pot	-99
+-1.799341	real	-99
+-1.799341	speak	-99
+-1.799341	such	-99
+-1.799341	than	-99
+-1.799341	the	-99
+-1.799341	thing	-99
+-1.498311	twenty	-99
+-1.799341	vision	-99
+-1.799341	voice	-99
+-1.799341	watched	-99
+-1.799341	words	-99
+
+\2-grams:
+-1	<s> A
+-1	<s> Actions
+-1	<s> Artificial
+-1	<s> Birthday
+-1	<s> Jealousy
+-1	<s> My
+-1	<s> Necessity
+-1	<s> OK
+-1	<s> Only
+-1	<s> There
+0	A watched
+0	Actions speak
+0	Artificial intelligence
+0	Birthday parties
+0	Google </s>
+0	Jealousy has
+0	My voice
+0	Necessity is
+0	OK Google
+0	Only lawyers
+0	There is
+0	a free
+0	and ice
+0	as a
+0	boils </s>
+0	cream </s>
+0	cupcakes and
+0	for real
+0	free lunch
+0	has twenty
+0	have cupcakes
+0	ice cream
+0	intelligence is
+0	invention </s>
+-0.60206	is for
+-0.60206	is my
+-0.60206	is no
+-0.60206	is the
+0	lawyers love
+0	louder than
+0	love millionaires
+0	lunch </s>
+0	millionaires </s>
+0	mother of
+0	my password
+0	never boils
+0	no such
+0	of invention
+0	parties have
+0	password </s>
+0	pot never
+0	real </s>
+0	speak louder
+0	such thing
+0	than words
+0	the mother
+0	thing as
+-0.30103	twenty twenty
+-0.30103	twenty vision
+0	vision </s>
+0	voice is
+0	watched pot
+0	words </s>
+
+\end\
