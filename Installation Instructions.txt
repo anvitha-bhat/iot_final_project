@@ -8,7 +8,6 @@ pip install scipy
 install PyTorch using the commend on https://pytorch.org/ depending on your machine
 
 For linux machine:
-install
 pip install pocketsphinx
 
 For Windows Machine:
