@@ -26,13 +26,15 @@ with open(os.path.join(data_path,'void_feature_label_train.npy'), 'rb') as f:
     void_data = np.load(f)
 
 # check labels. They should be the same
-print(np.sum(void_data[:,97].reshape(-1)- training_labels.reshape(-1)))
+# print(np.sum(void_data[:,97].reshape(-1)- training_labels.reshape(-1)))
 
-print(training_featuures.shape)
-print(void_data.shape)
+# print(training_featuures.shape)
+# print(void_data.shape)
 
 combined_training_features = np.concatenate((void_data[:,0:97], training_featuures), axis=1)
-print(combined_training_features.shape)
+
 # save data
 with open(os.path.join(data_path,'combined_void_phoneme_training_features.npy'), 'wb') as f:
     np.save(f, combined_training_features)
+
+print("The phoneme-based features and void features are combined and saved in combined_void_phoneme_training_features.npy. The resulting data have dimension: " + str(combined_training_features.shape))

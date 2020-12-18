@@ -10,7 +10,7 @@ from python_speech_features import mfcc, logfbank
 import matplotlib.pyplot as plt
 
 # phonetic segmentation using pocketsphiinx
-# feature extraction: MFCC + filterbank energy + Void
+# feature extraction: MFCC + filterbank energy
 
 model_path = get_model_path()
 training_data_path = ".\data\ASVspoof2017_V2_train"
@@ -21,6 +21,7 @@ training_set_description_path = ".\data\protocol_V2\ASVspoof2017_V2_train.trn.tx
 dev_set_description_path = ".\data\protocol_V2\ASVspoof2017_V2_dev.trl.txt"
 fileName = "T_1000003.wav"
 phonemes_path = ".\data\PasswordPhonemes.txt"
+
 
 f = open(phonemes_path, "r")
 all_possible_phonemes =  list(set(f.read().split()))
@@ -64,7 +65,6 @@ f.close()
 # print(counts)
 
 
-
 # feature extraction through mfcc and log filter bank energy
 def extract_mfcc_filterbank_features(file_path, show=False):
 
@@ -90,7 +90,9 @@ def extract_mfcc_filterbank_features(file_path, show=False):
     
     return mfcc_features, filterbank_features
 
+# perform word segmentation
 def word_seg(file_path, verbose=True):
+    # set parameters and dictionary
     config = {
         'hmm': os.path.join(model_path, 'en-us'),
         'lm': os.path.join(model_path, 'en-us.lm.bin'),
@@ -117,6 +119,7 @@ def word_seg(file_path, verbose=True):
         
     return segs_and_phonemes
 
+# perform phoneme recognition
 def phoneme_seg(file_path, verbose=True):
     # Create a decoder with a certain model
     config = pocketsphinx.Decoder.default_config()
@@ -144,6 +147,7 @@ def phoneme_seg(file_path, verbose=True):
         
     return segs
 
+# extract MFCC and filterbank energy feature
 def extract_feature(mfcc_features, filterbank_features,  word_segments, phoneme_segments):
     # feature array
     # first (mfcc_features.shape[1]+filterbank_features.shape[1])) elements are for the first phoneme
@@ -195,8 +199,10 @@ def extract_feature(mfcc_features, filterbank_features,  word_segments, phoneme_
     return result
 
 
-
-
+# example: T_1000003.wav
+print("example file: T_1000003.wav")
+word_segments = word_seg(os.path.join(training_data_path, fileName), verbose=True)
+phoneme_segments = phoneme_seg(os.path.join(training_data_path, fileName), verbose=True)
 
 features_for_all_samples = None
 labels = None
@@ -204,6 +210,9 @@ sample_count = 0
 
 # generate Phoneme segmentation and features for each training file
 for record in training_set_description:
+    if sample_count%50 == 0:
+        print("processing sample " + str(sample_count))
+        
     # if this line is not empty
     if len(record)>10:
         fileName = record.split(" ")[0]
@@ -232,18 +241,13 @@ for record in training_set_description:
         labels[sample_count] = label
         sample_count += 1
         
-        if sample_count%100 == 0:
-            print("processing sample " + str(sample_count))
+        
 
-
-
-
-# change 0 into mean values of non-zero elements for each column
+# change 0 (missing value) into mean values of non-zero elements for each column
 column_mean = np.true_divide(features_for_all_samples.sum(0),(features_for_all_samples!=0).sum(0))
 inds = np.where(features_for_all_samples == 0)
 # replace the index
 features_for_all_samples[inds] = np.take(column_mean, inds[1])
-
 
 
 # save data
@@ -253,12 +257,10 @@ with open(os.path.join(data_path,'training_features_for_all_samples.npy'), 'wb')
 with open(os.path.join(data_path,'training_labels.npy'), 'wb') as f:
     np.save(f, labels)
 
-
-
 # load data
 with open(os.path.join(data_path,'training_features_for_all_samples.npy'), 'rb') as f:
     temp = np.load(f)
-print(temp)
+
 
 
 
@@ -266,6 +268,7 @@ print(temp)
 # This aligns with the goal of void
 
 # using vanilla PCA
+print("Running PCA dimension reduction.")
 all_data = temp
 # all_data = np.concatenate((temp, temp2), axis=0)
 
@@ -278,14 +281,12 @@ sum_eigen_values = sum(eigen_values)
 for i in eigen_values:
      cumulative_variance.append((i/sum_eigen_values))
 cumulative_variance = np.cumsum(cumulative_variance)
-print(cumulative_variance)
 
 
 
 # use 165 components for 95% variance
 projection = (eigen_vectors.T[:][:165]).T
 projected_features_training = temp.dot(projection)
-print(projected_features_training)
 # projected_features_dev = temp2.dot(projection)
 # print(projected_features_dev)
 
@@ -296,3 +297,5 @@ with open(os.path.join(data_path,'training_features_for_all_samples_PCA.npy'), '
 #     np.save(f, projected_features_dev)
 with open(os.path.join(data_path,'projection_PCA.npy'), 'wb') as f:
     np.save(f, projection)
+
+print("Done. Results are saved in data/training_features_for_all_samples_PCA.npy, projection_PCA.npy, training_features_for_all_samples.npy, and training_labels.npy.")
